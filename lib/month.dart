@@ -1,23 +1,26 @@
 import 'package:calendar/constants.dart';
+import 'package:calendar/month_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
 class MonthCard extends StatefulWidget {
-  const MonthCard({Key? key, required this.dateTime}) : super(key: key);
+  const MonthCard({Key? key, required this.currentDate}) : super(key: key);
 
-  final DateTime dateTime;
+  final DateTime currentDate;
 
   @override
   State<MonthCard> createState() => _MonthCardState();
 }
 
 class _MonthCardState extends State<MonthCard> {
-  int getWeeks(DateTime currentDate) {
-    var days = DateUtils.getDaysInMonth(currentDate.year, currentDate.month);
+  List<List<DateTime?>> matrixDate = [];
+
+  int getWeeks(DateTime date) {
+    var days = DateUtils.getDaysInMonth(date.year, date.month);
     int result = 1;
     for (int i = 2; i < days + 1; i++) {
-      if (DateFormat('EEEE')
-              .format(DateTime(currentDate.year, currentDate.month, i)) ==
+      if (DateFormat('EEEE').format(DateTime(date.year, date.month, i)) ==
           'Monday') {
         result += 1;
       }
@@ -25,9 +28,9 @@ class _MonthCardState extends State<MonthCard> {
     return result;
   }
 
-  List<List<int>> getMonthMatrix(DateTime currentDate) {
-    List<List<int>> matrix = [];
-    int weeks = getWeeks(currentDate);
+  List<List<DateTime?>> getMonthMatrix(DateTime date) {
+    List<List<DateTime?>> matrix = [];
+    int weeks = getWeeks(date);
     int index = 1;
     List<String> days = [
       'Monday',
@@ -39,24 +42,31 @@ class _MonthCardState extends State<MonthCard> {
       'Sunday'
     ];
     for (int i = 0; i < weeks; i++) {
-      matrix.add([0, 0, 0, 0, 0, 0, 0]);
+      matrix.add([null, null, null, null, null, null, null]);
       for (int n = 0; n < 7; n++) {
         if (i == 0 && index == 1) {
           var day1 = days[n];
-          var day2 = DateFormat('EEEE').format(
-              DateTime(currentDate.year, currentDate.month, currentDate.day));
+          var day2 = DateFormat('EEEE')
+              .format(DateTime(date.year, date.month, date.day));
           if (day1 == day2) {
-            matrix[i][n] = index;
+            matrix[i][n] = DateTime(date.year, date.month, index);
             index++;
           }
-        } else if (index <=
-            DateUtils.getDaysInMonth(currentDate.year, currentDate.month)) {
-          matrix[i][n] = index;
+        } else if (index <= DateUtils.getDaysInMonth(date.year, date.month)) {
+          matrix[i][n] = DateTime(date.year, date.month, index);
           index++;
         }
       }
     }
     return matrix;
+  }
+
+  @override
+  void initState() {
+    matrixDate = getMonthMatrix(widget.currentDate);
+    matrix.matrixStatus[widget.currentDate] =
+        matrix.initMatrixStatus(matrixDate);
+    super.initState();
   }
 
   @override
@@ -67,56 +77,51 @@ class _MonthCardState extends State<MonthCard> {
         child: Column(
           children: [
             Text(
-              "${months[widget.dateTime.month]} ${widget.dateTime.year}",
+              "${months[widget.currentDate.month]} ${widget.currentDate.year}",
               style: monthStyle,
             ),
-            SizedBox(
-              height: 250,
-              child: ListView.builder(
-                  itemCount: getWeeks(widget.dateTime),
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      child: ListView.builder(
-                          itemCount: 7,
-                          primary: false,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index2) {
-                            return SizedBox(
-                              width: MediaQuery.of(context).size.width / 7,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(7),
-                                  // border: const Border(
-                                  //     top: BorderSide(color: Colors.black))
-                                ),
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      (getMonthMatrix(widget.dateTime)[index]
-                                                      [index2]
-                                                  .toString() !=
-                                              '0')
-                                          ? getMonthMatrix(widget.dateTime)[
-                                                  index][index2]
-                                              .toString()
-                                          : '',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      ),
-                                    )),
-                              ),
-                            );
-                          }),
-                    );
-                  }),
+            const SizedBox(
+              height: 15,
             ),
+            ListView.builder(
+                itemCount: getWeeks(widget.currentDate),
+                shrinkWrap: true,
+                primary: false,
+                itemBuilder: (context, week) {
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 45,
+                    child: ListView.builder(
+                        itemCount: 7,
+                        primary: false,
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemBuilder: (context, day) {
+                          return Observer(
+                            builder: (_) => SizedBox(
+                              width: MediaQuery.of(context).size.width / 7,
+                              child: (matrix.matrixStatus[widget.currentDate]![
+                                          week][day] !=
+                                      null)
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        debugPrint(
+                                            'Была нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
+                                      },
+                                      onDoubleTap: () {
+                                        debugPrint(
+                                            'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
+                                        matrix.addToRange(matrixDate[week][day],
+                                            widget.currentDate, week, day);
+                                      },
+                                      child: monthCard(matrixDate,
+                                          widget.currentDate, week, day))
+                                  : const SizedBox(),
+                            ),
+                          );
+                        }),
+                  );
+                }),
           ],
         ),
       ),

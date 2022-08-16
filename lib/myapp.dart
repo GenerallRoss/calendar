@@ -40,40 +40,42 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Container(
-                color: Colors.white,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Пн', style: dayStyle),
-                      Text('Вт', style: dayStyle),
-                      Text('Ср', style: dayStyle),
-                      Text('Чт', style: dayStyle),
-                      Text('Пт', style: dayStyle),
-                      Text('Сб', style: dayStyle),
-                      Text('Вс', style: dayStyle),
-                    ],
-                  ),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 40,
+            ),
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Пн', style: dayStyle),
+                    Text('Вт', style: dayStyle),
+                    Text('Ср', style: dayStyle),
+                    Text('Чт', style: dayStyle),
+                    Text('Пт', style: dayStyle),
+                    Text('Сб', style: dayStyle),
+                    Text('Вс', style: dayStyle),
+                  ],
                 ),
               ),
-              ListView.builder(
-                  itemCount: countMonths,
-                  primary: false,
-                  shrinkWrap: true,
-                  itemBuilder: ((context, index) {
-                    return MonthCard(dateTime: dateList[index]);
-                  }))
-            ],
-          ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                    itemCount: countMonths,
+                    primary: false,
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      return MonthCard(currentDate: dateList[index]);
+                    })),
+              ),
+            )
+          ],
         ),
       ),
     );
