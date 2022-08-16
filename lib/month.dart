@@ -64,8 +64,7 @@ class _MonthCardState extends State<MonthCard> {
   @override
   void initState() {
     matrixDate = getMonthMatrix(widget.currentDate);
-    matrix.matrixStatus[widget.currentDate] =
-        matrix.initMatrixStatus(matrixDate);
+    matrix.initMatrixStatus(matrixDate);
     super.initState();
   }
 

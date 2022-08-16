@@ -13,13 +13,14 @@ mixin _$Statuses on _Statuses, Store {
       Atom(name: '_Statuses.matrixStatus', context: context);
 
   @override
-  Map<DateTime, List<List<Status?>>> get matrixStatus {
+  Map<DateTime, ObservableList<ObservableList<Status?>>> get matrixStatus {
     _$matrixStatusAtom.reportRead();
     return super.matrixStatus;
   }
 
   @override
-  set matrixStatus(Map<DateTime, List<List<Status?>>> value) {
+  set matrixStatus(
+      Map<DateTime, ObservableList<ObservableList<Status?>>> value) {
     _$matrixStatusAtom.reportWrite(value, super.matrixStatus, () {
       super.matrixStatus = value;
     });
@@ -29,13 +30,13 @@ mixin _$Statuses on _Statuses, Store {
       Atom(name: '_Statuses.rangeDates', context: context);
 
   @override
-  List<DateTime?> get rangeDates {
+  ObservableList<DateTime?> get rangeDates {
     _$rangeDatesAtom.reportRead();
     return super.rangeDates;
   }
 
   @override
-  set rangeDates(List<DateTime?> value) {
+  set rangeDates(ObservableList<DateTime?> value) {
     _$rangeDatesAtom.reportWrite(value, super.rangeDates, () {
       super.rangeDates = value;
     });
@@ -45,7 +46,7 @@ mixin _$Statuses on _Statuses, Store {
       ActionController(name: '_Statuses', context: context);
 
   @override
-  List<List<Status?>> initMatrixStatus(List<List<DateTime?>> matrixDate) {
+  void initMatrixStatus(List<List<DateTime?>> matrixDate) {
     final _$actionInfo = _$_StatusesActionController.startAction(
         name: '_Statuses.initMatrixStatus');
     try {
@@ -56,11 +57,12 @@ mixin _$Statuses on _Statuses, Store {
   }
 
   @override
-  void addToRange(DateTime? pickedDate, DateTime dateTime, int week, int day) {
+  void addToRange(
+      DateTime? pickedDate, DateTime indexMonth, int week, int day) {
     final _$actionInfo =
         _$_StatusesActionController.startAction(name: '_Statuses.addToRange');
     try {
-      return super.addToRange(pickedDate, dateTime, week, day);
+      return super.addToRange(pickedDate, indexMonth, week, day);
     } finally {
       _$_StatusesActionController.endAction(_$actionInfo);
     }
