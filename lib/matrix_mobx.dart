@@ -9,18 +9,17 @@ class Statuses = _Statuses with _$Statuses;
 
 abstract class _Statuses with Store {
   @observable
-  Map<DateTime, List<List<Status?>>> matrixStatus = {};
+  Map<DateTime, ObservableList<ObservableList<Status?>>> matrixStatus = {};
 
   @observable
-  List<DateTime?> rangeDates = [null, null] as ObservableList<DateTime?>;
+  ObservableList<DateTime?> rangeDates = ObservableList.of([null, null]);
 
   @action
   // Создаёт матрицу статусов для каждого дня
-  List<List<Status?>> initMatrixStatus(List<List<DateTime?>> matrixDate) {
-    List<List<Status?>> matrixStatus = [];
+  void initMatrixStatus(List<List<DateTime?>> matrixDate) {
     // По умолчанию все дни доступны
-    for (int i = 0; i < matrixDate.length; i++) {
-      matrixStatus.add([
+    for (int week = 0; week < matrixDate.length; week++) {
+      matrixStatus[matrixDate]!.add(ObservableList.of([
         Status.def,
         Status.def,
         Status.def,
@@ -28,46 +27,46 @@ abstract class _Statuses with Store {
         Status.def,
         Status.def,
         Status.def
-      ]);
+      ]));
       // Проверка каждого дня на неделе
-      for (int n = 0; n < 7; n++) {
+      for (int day = 0; day < 7; day++) {
         // Если день идёт ДО сегодняшнего, то ему присваивается статус "Прошедший"
-        if (matrixDate[i][n] != null) {
-          if (matrixDate[i][n]!.isBefore(DateTime.now()) &&
-              matrixDate[i][n]!.day != DateTime.now().day) {
-            matrixStatus[i][n] = Status.before;
+        if (matrixDate[week][day] != null) {
+          if (matrixDate[week][day]!.isBefore(DateTime.now()) &&
+              matrixDate[week][day]!.day != DateTime.now().day) {
+            matrixStatus[matrixDate]![week].insert(day, Status.before);
             // Если день сегодняшний - ему присваивается статус "Сегодняшний день доступный"
-          } else if (matrixDate[i][n]!.day == DateTime.now().day &&
-              matrixDate[i][n]!.month == DateTime.now().month &&
-              matrixDate[i][n]!.year == DateTime.now().year) {
-            matrixStatus[i][n] = Status.defaultToday;
+          } else if (matrixDate[week][day]!.day == DateTime.now().day &&
+              matrixDate[week][day]!.month == DateTime.now().month &&
+              matrixDate[week][day]!.year == DateTime.now().year) {
+            matrixStatus[matrixDate]![week].insert(day, Status.defaultToday);
           }
         } else {
-          matrixStatus[i][n] = null;
+          matrixStatus[matrixDate]![week].insert(day, null);
         }
       }
     }
-    return matrixStatus;
   }
 
   @action
-  void addToRange(DateTime? pickedDate, DateTime dateTime, int week, int day) {
+  void addToRange(
+      DateTime? pickedDate, DateTime indexMonth, int week, int day) {
     if (rangeDates[0] == null && rangeDates[1] == null) {
       rangeDates[0] = pickedDate;
-      matrixStatus[dateTime]![week][day] = Status.choosen;
+      matrixStatus[indexMonth]![week][day] = Status.choosen;
     } else if (rangeDates[0] != null && rangeDates[1] == null) {
       rangeDates[1] = pickedDate;
-      matrixStatus[dateTime]![week][day] = Status.choosen;
-    } else {
+      matrixStatus[indexMonth]![week][day] = Status.choosen;
+    } else if (rangeDates[0] != pickedDate && rangeDates[1] != pickedDate) {
       if (rangeDates[1]!.isBefore(pickedDate!)) {
         List<int> oldDay = getCountWeeks(rangeDates[1]!);
-        matrixStatus[dateTime]![week][day] = Status.choosen;
+        matrixStatus[indexMonth]![week][day] = Status.choosen;
         matrixStatus[DateTime(rangeDates[1]!.year, rangeDates[1]!.month, 1)]![
             oldDay[0] - 1][oldDay[1] - 1] = Status.def;
         rangeDates[1] = pickedDate;
       } else {
         List<int> oldDay = getCountWeeks(rangeDates[0]!);
-        matrixStatus[dateTime]![week][day] = Status.choosen;
+        matrixStatus[indexMonth]![week][day] = Status.choosen;
         matrixStatus[DateTime(rangeDates[0]!.year, rangeDates[0]!.month, 1)]![
             oldDay[0] - 1][oldDay[1] - 1] = Status.def;
         rangeDates[0] = pickedDate;
