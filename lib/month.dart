@@ -52,14 +52,14 @@ class _MonthCardState extends State<MonthCard> {
                       itemBuilder: (context3, week) {
                         return SizedBox(
                           height: 45,
+                          width: boxConstraints.maxWidth / 7.0,
                           child: ListView.builder(
                               itemCount: 7,
                               primary: false,
                               scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
                               itemBuilder: (context, day) {
                                 return SizedBox(
-                                  width: boxConstraints.maxWidth / 7.01,
+                                  width: boxConstraints.maxWidth / 7.0,
                                   child: (value.matrixStatus[
                                               widget.currentDate]![week][day] !=
                                           null)
