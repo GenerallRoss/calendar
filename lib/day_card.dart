@@ -4,7 +4,7 @@ import 'package:calendar/constants.dart';
 import 'package:calendar/status.dart';
 import 'package:flutter/material.dart';
 
-Widget monthCard(
+Widget dayCard(
     List<List<DateTime?>> matrixDate, DateTime currentDate, int week, int day) {
   return Padding(
     padding: const EdgeInsets.all(3.5),

@@ -1,5 +1,5 @@
 import 'package:calendar/constants.dart';
-import 'package:calendar/month_card.dart';
+import 'package:calendar/day_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
@@ -114,7 +114,7 @@ class _MonthCardState extends State<MonthCard> {
                                         matrix.addToRange(matrixDate[week][day],
                                             widget.currentDate, week, day);
                                       },
-                                      child: monthCard(matrixDate,
+                                      child: dayCard(matrixDate,
                                           widget.currentDate, week, day))
                                   : const SizedBox(),
                             ),
