@@ -1,5 +1,6 @@
 import 'package:calendar/constants.dart';
 import 'package:calendar/day_card.dart';
+import 'package:calendar/matrix_mobx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
@@ -64,8 +65,7 @@ class _MonthCardState extends State<MonthCard> {
   @override
   void initState() {
     matrixDate = getMonthMatrix(widget.currentDate);
-    matrix.matrixStatus[widget.currentDate] =
-        matrix.initMatrixStatus(matrixDate);
+    matrixStatus[widget.currentDate] = initMatrixStatus(matrixDate);
     super.initState();
   }
 
@@ -100,8 +100,8 @@ class _MonthCardState extends State<MonthCard> {
                           return Observer(
                             builder: (_) => SizedBox(
                               width: MediaQuery.of(context).size.width / 7,
-                              child: (matrix.matrixStatus[widget.currentDate]![
-                                          week][day] !=
+                              child: (matrixStatus[widget.currentDate]![week]
+                                          [day] !=
                                       null)
                                   ? GestureDetector(
                                       onTap: () {
@@ -111,7 +111,7 @@ class _MonthCardState extends State<MonthCard> {
                                       onDoubleTap: () {
                                         debugPrint(
                                             'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                        matrix.addToRange(matrixDate[week][day],
+                                        addToRange(matrixDate[week][day],
                                             widget.currentDate, week, day);
                                       },
                                       child: dayCard(matrixDate,

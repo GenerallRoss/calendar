@@ -4,6 +4,8 @@ import 'package:calendar/constants.dart';
 import 'package:calendar/status.dart';
 import 'package:flutter/material.dart';
 
+import 'matrix_mobx.dart';
+
 Widget dayCard(
     List<List<DateTime?>> matrixDate, DateTime currentDate, int week, int day) {
   return Padding(
@@ -11,28 +13,24 @@ Widget dayCard(
     child: Container(
       decoration: BoxDecoration(
           // Если день доступен
-          color: (matrix.matrixStatus[currentDate]![week][day] ==
-                      Status.avaible ||
-                  matrix.matrixStatus[currentDate]![week][day] ==
-                      Status.avaibleToday)
+          color: (matrixStatus[currentDate]![week][day] == Status.avaible ||
+                  matrixStatus[currentDate]![week][day] == Status.avaibleToday)
               ? Colors.white
               // Если день недоступен
-              : (matrix.matrixStatus[currentDate]![week][day] ==
-                          Status.unavaible ||
-                      matrix.matrixStatus[currentDate]![week][day] ==
+              : (matrixStatus[currentDate]![week][day] == Status.unavaible ||
+                      matrixStatus[currentDate]![week][day] ==
                           Status.unavaibleToday)
                   ? const Color.fromARGB(175, 214, 214, 214)
                   // День "По умолчанию"
-                  : (matrix.matrixStatus[currentDate]![week][day] ==
-                          Status.choosen)
+                  : (matrixStatus[currentDate]![week][day] == Status.choosen)
                       ? Colors.black
                       : Colors.transparent,
           border: Border.all(
-              color: (matrix.matrixStatus[currentDate]![week][day] ==
+              color: (matrixStatus[currentDate]![week][day] ==
                           Status.avaibleToday ||
-                      matrix.matrixStatus[currentDate]![week][day] ==
+                      matrixStatus[currentDate]![week][day] ==
                           Status.unavaibleToday ||
-                      matrix.matrixStatus[currentDate]![week][day] ==
+                      matrixStatus[currentDate]![week][day] ==
                           Status.defaultToday)
                   ? Colors.black
                   : Colors.transparent,
@@ -44,14 +42,12 @@ Widget dayCard(
               ? matrixDate[week][day]!.day.toString()
               : '',
           textAlign: TextAlign.center,
-          style: (matrix.matrixStatus[currentDate]![week][day] ==
-                      Status.before ||
-                  matrix.matrixStatus[currentDate]![week][day] ==
-                      Status.unavaible ||
-                  matrix.matrixStatus[currentDate]![week][day] ==
+          style: (matrixStatus[currentDate]![week][day] == Status.before ||
+                  matrixStatus[currentDate]![week][day] == Status.unavaible ||
+                  matrixStatus[currentDate]![week][day] ==
                       Status.unavaibleToday)
               ? unavaibleTextStyle
-              : (matrix.matrixStatus[currentDate]![week][day] == Status.choosen)
+              : (matrixStatus[currentDate]![week][day] == Status.choosen)
                   ? choosenTextStyle
                   : defaultTextStyle,
         ),

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'matrix_mobx.dart';
-
 Color mainGrey = const Color.fromARGB(255, 172, 171, 171);
 Color backgroundColor = const Color.fromARGB(255, 241, 241, 241);
 
 TextStyle dayStyle = TextStyle(
   color: mainGrey,
 );
-
-Statuses matrix = Statuses();
 
 TextStyle monthStyle = const TextStyle(
     color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17);
