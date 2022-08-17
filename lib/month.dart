@@ -59,7 +59,7 @@ class _MonthCardState extends State<MonthCard> {
                               shrinkWrap: true,
                               itemBuilder: (context, day) {
                                 return SizedBox(
-                                  width: boxConstraints.maxWidth / 7,
+                                  width: boxConstraints.maxWidth / 7.01,
                                   child: (value.matrixStatus[
                                               widget.currentDate]![week][day] !=
                                           null)
