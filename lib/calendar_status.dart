@@ -8,6 +8,19 @@ class CalendarStatus extends ChangeNotifier {
   List<DateTime?> rangeDates = [null, null];
   bool leftOrRight = true;
 
+  Status whatStatusOfDay(DateTime date) {
+    if (date.isBefore(DateTime.now()) && date.day != DateTime.now().day) {
+      return Status.unavaible;
+      // Если день сегодняшний - ему присваивается статус "Сегодняшний день доступный"
+    } else if (date.day == DateTime.now().day &&
+        date.month == DateTime.now().month &&
+        date.year == DateTime.now().year) {
+      return Status.defaultToday;
+    } else {
+      return Status.def;
+    }
+  }
+
 // Создаёт матрицу статусов для каждого дня
   void initMatrixStatus(List<List<DateTime?>> matrixDate) {
     DateTime currentKey =
@@ -30,15 +43,7 @@ class CalendarStatus extends ChangeNotifier {
         DateTime? currentDay = matrixDate[i][n];
         // Если день идёт ДО сегодняшнего, то ему присваивается статус "Прошедший"
         if (currentDay != null) {
-          if (currentDay.isBefore(DateTime.now()) &&
-              currentDay.day != DateTime.now().day) {
-            matrixStatus[currentKey]![i][n] = Status.before;
-            // Если день сегодняшний - ему присваивается статус "Сегодняшний день доступный"
-          } else if (currentDay.day == DateTime.now().day &&
-              currentDay.month == DateTime.now().month &&
-              currentDay.year == DateTime.now().year) {
-            matrixStatus[currentKey]![i][n] = Status.defaultToday;
-          }
+          matrixStatus[currentKey]![i][n] = whatStatusOfDay(currentDay);
         } else {
           matrixStatus[currentKey]![i][n] = null;
         }
@@ -55,40 +60,31 @@ class CalendarStatus extends ChangeNotifier {
       rangeDates[1] = pickedDate;
       matrixStatus[DateTime(dateTime.year, dateTime.month, 1)]![week][day] =
           Status.choosen;
-      rewriteStatus();
-    } else if (pickedDate != rangeDates[0] && pickedDate != rangeDates[1]) {
-      if (rangeDates[1]!.isBefore(pickedDate!)) {
-        List<int> oldDay = getCountWeeks(rangeDates[1]!);
-        matrixStatus[DateTime(rangeDates[1]!.year, rangeDates[1]!.month, 1)]![
-            oldDay[0] - 1][oldDay[1] - 1] = Status.def;
-        clearSelected();
-        if (leftOrRight) {
-          rangeDates[1] = pickedDate;
-        } else {
-          rangeDates[0] = pickedDate;
-        }
-        rewriteStatus();
-        matrixStatus[DateTime(dateTime.year, dateTime.month, 1)]![week][day] =
-            Status.choosen;
-      } else {
-        List<int> oldDay = getCountWeeks(rangeDates[0]!);
-        matrixStatus[DateTime(rangeDates[0]!.year, rangeDates[0]!.month, 1)]![
-            oldDay[0] - 1][oldDay[1] - 1] = Status.def;
-        clearSelected();
-        if (leftOrRight) {
-          rangeDates[0] = pickedDate;
-        } else {
-          rangeDates[1] = pickedDate;
-        }
-        rewriteStatus();
-        matrixStatus[DateTime(dateTime.year, dateTime.month, 1)]![week][day] =
-            Status.choosen;
+      if (rangeDates[1]!.isBefore(rangeDates[0]!)) {
+        DateTime temp = rangeDates[0]!;
+        rangeDates[0] = rangeDates[1];
+        rangeDates[1] = temp;
       }
+      rewriteStatus(false);
+    } else {
+      List<int> firstRange = getCountWeeks(rangeDates[0]!);
+      List<int> secondRange = getCountWeeks(rangeDates[1]!);
+      matrixStatus[DateTime(rangeDates[0]!.year, rangeDates[0]!.month, 1)]![
+              firstRange[0] - 1][firstRange[1] - 1] =
+          whatStatusOfDay(rangeDates[0]!);
+      matrixStatus[DateTime(rangeDates[1]!.year, rangeDates[1]!.month, 1)]![
+              secondRange[0] - 1][secondRange[1] - 1] =
+          whatStatusOfDay(rangeDates[1]!);
+      rewriteStatus(true);
+      rangeDates[0] = pickedDate;
+      matrixStatus[DateTime(rangeDates[0]!.year, rangeDates[0]!.month, 1)]![
+          week][day] = Status.choosen;
+      rangeDates[1] = null;
     }
     notifyListeners();
   }
 
-  void rewriteStatus() {
+  void rewriteStatus(bool isNew) {
     DateTime? firstDate = rangeDates[0];
     DateTime? secondDate = rangeDates[1];
     while (firstDate !=
@@ -96,22 +92,13 @@ class CalendarStatus extends ChangeNotifier {
       firstDate = DateTime(firstDate!.year, firstDate.month, firstDate.day + 1);
       List<int> dayMatrix = getCountWeeks(firstDate);
       DateTime currentDay = DateTime(firstDate.year, firstDate.month, 1);
-      matrixStatus[currentDay]![dayMatrix[0] - 1][dayMatrix[1] - 1] =
-          Status.ranged;
-    }
-    notifyListeners();
-  }
-
-  void clearSelected() {
-    DateTime? firstDate = rangeDates[0];
-    DateTime? secondDate = rangeDates[1];
-    while (firstDate !=
-        DateTime(secondDate!.year, secondDate.month, secondDate.day - 1)) {
-      firstDate = DateTime(firstDate!.year, firstDate.month, firstDate.day + 1);
-      List<int> dayMatrix = getCountWeeks(firstDate);
-      DateTime currentDay = DateTime(firstDate.year, firstDate.month, 1);
-      matrixStatus[currentDay]![dayMatrix[0] - 1][dayMatrix[1] - 1] =
-          Status.def;
+      if (!isNew) {
+        matrixStatus[currentDay]![dayMatrix[0] - 1][dayMatrix[1] - 1] =
+            Status.ranged;
+      } else {
+        matrixStatus[currentDay]![dayMatrix[0] - 1][dayMatrix[1] - 1] =
+            whatStatusOfDay(firstDate);
+      }
     }
     notifyListeners();
   }

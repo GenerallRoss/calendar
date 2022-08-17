@@ -7,5 +7,4 @@ enum Status {
   def,
   choosen,
   ranged,
-  before
 }
