@@ -9,18 +9,22 @@ import 'calendar_status.dart';
 Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
     int day, CalendarStatus calendarStatus) {
   return Padding(
-    padding: const EdgeInsets.all(3.5),
+    padding:
+        (calendarStatus.matrixStatus[currentDate]![week][day] == Status.ranged)
+            ? const EdgeInsets.symmetric(vertical: 5)
+            : (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                    Status.choosen)
+                ? const EdgeInsets.all(0)
+                : const EdgeInsets.all(3.5),
     child: Container(
       decoration: BoxDecoration(
           // Если день доступен
-          color: (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                      Status.avaible ||
+          color: (calendarStatus.matrixStatus[currentDate]![week][day] == Status.avaible ||
                   calendarStatus.matrixStatus[currentDate]![week][day] ==
                       Status.avaibleToday)
               ? Colors.white
               // Если день недоступен
-              : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                          Status.unavaible ||
+              : (calendarStatus.matrixStatus[currentDate]![week][day] == Status.unavaible ||
                       calendarStatus.matrixStatus[currentDate]![week][day] ==
                           Status.unavaibleToday)
                   ? const Color.fromARGB(175, 214, 214, 214)
@@ -28,7 +32,10 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
                   : (calendarStatus.matrixStatus[currentDate]![week][day] ==
                           Status.choosen)
                       ? Colors.black
-                      : Colors.transparent,
+                      : (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                              Status.ranged)
+                          ? Colors.grey
+                          : Colors.transparent,
           border: Border.all(
               color: (calendarStatus.matrixStatus[currentDate]![week][day] ==
                           Status.avaibleToday ||
@@ -39,7 +46,9 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
                   ? Colors.black
                   : Colors.transparent,
               width: 2.5),
-          borderRadius: BorderRadius.circular(10)),
+          borderRadius: (calendarStatus.matrixStatus[currentDate]![week][day] == Status.ranged)
+              ? BorderRadius.circular(0)
+              : BorderRadius.circular(10)),
       child: Center(
         child: Text(
           (matrixDate[week][day]?.day.toString() != null)

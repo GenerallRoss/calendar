@@ -27,14 +27,6 @@ class _MonthCardState extends State<MonthCard> {
     widget.calendarStatus.initMatrixStatus(matrixDate);
   }
 
-  // void initShit() async {
-  //   Future.delayed(
-  //       const Duration(
-  //         seconds: 3,
-  //       ), () {
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -79,20 +71,18 @@ class _MonthCardState extends State<MonthCard> {
                                         onDoubleTap: () {
                                           debugPrint(
                                               'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                          //setState(() {
                                           value.addToRange(
                                               matrixDate[week][day],
                                               widget.currentDate,
                                               week,
                                               day);
-                                          //});
                                         },
                                         child: dayCard(
                                             matrixDate,
                                             widget.currentDate,
                                             week,
                                             day,
-                                            widget.calendarStatus))
+                                            value))
                                     : const SizedBox(),
                               );
                             }),
