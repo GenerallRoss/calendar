@@ -22,10 +22,18 @@ class _MonthCardState extends State<MonthCard> {
 
   @override
   void initState() {
+    super.initState();
     matrixDate = getMonthMatrix(widget.currentDate);
     widget.calendarStatus.initMatrixStatus(matrixDate);
-    super.initState();
   }
+
+  // void initShit() async {
+  //   Future.delayed(
+  //       const Duration(
+  //         seconds: 3,
+  //       ), () {
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -71,16 +79,20 @@ class _MonthCardState extends State<MonthCard> {
                                         onDoubleTap: () {
                                           debugPrint(
                                               'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                          setState(() {
-                                            value.addToRange(
-                                                matrixDate[week][day],
-                                                widget.currentDate,
-                                                week,
-                                                day);
-                                          });
+                                          //setState(() {
+                                          value.addToRange(
+                                              matrixDate[week][day],
+                                              widget.currentDate,
+                                              week,
+                                              day);
+                                          //});
                                         },
-                                        child: dayCard(matrixDate,
-                                            widget.currentDate, week, day))
+                                        child: dayCard(
+                                            matrixDate,
+                                            widget.currentDate,
+                                            week,
+                                            day,
+                                            widget.calendarStatus))
                                     : const SizedBox(),
                               );
                             }),

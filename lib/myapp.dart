@@ -8,7 +8,6 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    CalendarStatus calendarStatus = Provider.of<CalendarStatus>(context);
     return ChangeNotifierProvider(
       create: (context) => CalendarStatus(),
       child: MaterialApp(
@@ -16,16 +15,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage(calendarStatus: calendarStatus),
+        home: const MyHomePage(),
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.calendarStatus}) : super(key: key);
-
-  CalendarStatus calendarStatus;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -45,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    CalendarStatus calendarStatus = Provider.of<CalendarStatus>(context);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Center(
@@ -81,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemBuilder: ((context, index) {
                       return MonthCard(
                           currentDate: dateList[index],
-                          calendarStatus: widget.calendarStatus);
+                          calendarStatus: calendarStatus);
                     })),
               ),
             )
