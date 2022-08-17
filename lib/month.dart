@@ -2,7 +2,6 @@ import 'package:calendar/constants.dart';
 import 'package:calendar/day_card.dart';
 import 'package:calendar/matrix_mobx.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
 class MonthCard extends StatefulWidget {
@@ -97,27 +96,27 @@ class _MonthCardState extends State<MonthCard> {
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         itemBuilder: (context, day) {
-                          return Observer(
-                            builder: (_) => SizedBox(
-                              width: MediaQuery.of(context).size.width / 7,
-                              child: (matrixStatus[widget.currentDate]![week]
-                                          [day] !=
-                                      null)
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        debugPrint(
-                                            'Была нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                      },
-                                      onDoubleTap: () {
-                                        debugPrint(
-                                            'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
+                          return SizedBox(
+                            width: MediaQuery.of(context).size.width / 7,
+                            child: (matrixStatus[widget.currentDate]![week]
+                                        [day] !=
+                                    null)
+                                ? GestureDetector(
+                                    onTap: () {
+                                      debugPrint(
+                                          'Была нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
+                                    },
+                                    onDoubleTap: () {
+                                      debugPrint(
+                                          'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
+                                      setState(() {
                                         addToRange(matrixDate[week][day],
                                             widget.currentDate, week, day);
-                                      },
-                                      child: dayCard(matrixDate,
-                                          widget.currentDate, week, day))
-                                  : const SizedBox(),
-                            ),
+                                      });
+                                    },
+                                    child: dayCard(matrixDate,
+                                        widget.currentDate, week, day))
+                                : const SizedBox(),
                           );
                         }),
                   );
