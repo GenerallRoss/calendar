@@ -67,12 +67,6 @@ class _MonthCardState extends State<MonthCard> {
                                           null)
                                       ? GestureDetector(
                                           onTap: () {
-                                            debugPrint(
-                                                'Была нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                          },
-                                          onLongPress: () {
-                                            debugPrint(
-                                                'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
                                             //ignore: unrelated_type_equality_checks
                                             if (value.matrixStatus[widget
                                                     .currentDate]![week][day] !=
