@@ -1,8 +1,9 @@
-import 'package:calendar/constants.dart';
-import 'package:calendar/calendar_status.dart';
-import 'package:calendar/month.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'layouts/month.dart';
+import 'utils/calendar_status.dart';
+import 'values/constants.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

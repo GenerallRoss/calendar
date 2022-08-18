@@ -1,10 +1,9 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'package:calendar/constants.dart';
-import 'package:calendar/status.dart';
 import 'package:flutter/material.dart';
-
-import 'calendar_status.dart';
+import '../utils/calendar_status.dart';
+import '../values/constants.dart';
+import '../values/status.dart';
 
 Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
     int day, CalendarStatus calendarStatus) {
@@ -36,7 +35,7 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
             ? const EdgeInsets.symmetric(vertical: 5)
             : (calendarStatus.matrixStatus[currentDate]![week][day] ==
                     Status.choosen)
-                ? const EdgeInsets.all(0)
+                ? const EdgeInsets.symmetric(vertical: 2)
                 : const EdgeInsets.all(3.5),
     child: Container(
       decoration: BoxDecoration(
@@ -49,14 +48,14 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
               : (calendarStatus.matrixStatus[currentDate]![week][day] == Status.unavaible ||
                       calendarStatus.matrixStatus[currentDate]![week][day] ==
                           Status.unavaibleToday)
-                  ? const Color.fromARGB(175, 214, 214, 214)
+                  ? unuvaibleDayColor
                   // День "По умолчанию"
                   : (calendarStatus.matrixStatus[currentDate]![week][day] ==
                           Status.choosen)
                       ? Colors.black
                       : (calendarStatus.matrixStatus[currentDate]![week][day] ==
                               Status.ranged)
-                          ? Colors.grey
+                          ? rangedColor
                           : Colors.transparent,
           border: Border.all(
               color:
@@ -79,8 +78,7 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
               ? matrixDate[week][day]!.day.toString()
               : '',
           textAlign: TextAlign.center,
-          style: (
-                  calendarStatus.matrixStatus[currentDate]![week][day] ==
+          style: (calendarStatus.matrixStatus[currentDate]![week][day] ==
                       Status.unavaible ||
                   calendarStatus.matrixStatus[currentDate]![week][day] ==
                       Status.unavaibleToday)

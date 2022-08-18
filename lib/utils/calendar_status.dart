@@ -1,6 +1,7 @@
-import 'package:calendar/functions.dart';
-import 'package:calendar/status.dart';
 import 'package:flutter/cupertino.dart';
+
+import '../values/status.dart';
+import 'functions.dart';
 
 class CalendarStatus extends ChangeNotifier {
   final Map<DateTime, List<List<Status?>>> _matrixStatus = {};

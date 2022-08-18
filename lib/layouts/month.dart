@@ -1,10 +1,11 @@
-import 'package:calendar/constants.dart';
-import 'package:calendar/day_card.dart';
-import 'package:calendar/calendar_status.dart';
-import 'package:calendar/functions.dart';
-import 'package:calendar/status.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../utils/calendar_status.dart';
+import '../utils/functions.dart';
+import '../values/constants.dart';
+import '../values/status.dart';
+import 'day_card.dart';
 
 class MonthCard extends StatefulWidget {
   const MonthCard(
