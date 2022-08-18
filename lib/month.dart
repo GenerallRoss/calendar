@@ -2,6 +2,7 @@ import 'package:calendar/constants.dart';
 import 'package:calendar/day_card.dart';
 import 'package:calendar/calendar_status.dart';
 import 'package:calendar/functions.dart';
+import 'package:calendar/status.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -71,11 +72,16 @@ class _MonthCardState extends State<MonthCard> {
                                           onLongPress: () {
                                             debugPrint(
                                                 'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                            value.addToRange(
-                                                matrixDate[week][day],
-                                                widget.currentDate,
-                                                week,
-                                                day);
+                                            // ignore: unrelated_type_equality_checks
+                                            if (value.matrixStatus[widget
+                                                    .currentDate]![week][day] !=
+                                                Status.unavaible) {
+                                              value.addToRange(
+                                                  matrixDate[week][day],
+                                                  widget.currentDate,
+                                                  week,
+                                                  day);
+                                            }
                                           },
                                           child: dayCard(
                                               matrixDate,
