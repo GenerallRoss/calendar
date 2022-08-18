@@ -34,7 +34,7 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
         (calendarStatus.matrixStatus[currentDate]![week][day] == Status.ranged)
             ? const EdgeInsets.symmetric(vertical: 5)
             : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                    Status.choosen)
+                    Status.selected)
                 ? const EdgeInsets.symmetric(vertical: 2)
                 : const EdgeInsets.all(3.5),
     child: Container(
@@ -51,7 +51,7 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
                   ? unuvaibleDayColor
                   // День "По умолчанию"
                   : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                          Status.choosen)
+                          Status.selected)
                       ? Colors.black
                       : (calendarStatus.matrixStatus[currentDate]![week][day] ==
                               Status.ranged)
@@ -84,7 +84,7 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
                       Status.unavaibleToday)
               ? unavaibleTextStyle
               : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                      Status.choosen)
+                      Status.selected)
                   ? choosenTextStyle
                   : defaultTextStyle,
         ),

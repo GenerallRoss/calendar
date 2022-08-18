@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-int getWeeks(DateTime date) {
+// Возвращает количество недель в месяце
+int getCountWeeks(DateTime date) {
   var days = DateUtils.getDaysInMonth(date.year, date.month);
   int result = 1;
   for (int i = 2; i < days + 1; i++) {
@@ -13,9 +14,10 @@ int getWeeks(DateTime date) {
   return result;
 }
 
+// Возвращает матрицу дней в месяце
 List<List<DateTime?>> getMonthMatrix(DateTime date) {
   List<List<DateTime?>> matrix = [];
-  int weeks = getWeeks(date);
+  int weeks = getCountWeeks(date);
   int index = 1;
   List<String> days = [
     'Monday',
@@ -46,8 +48,9 @@ List<List<DateTime?>> getMonthMatrix(DateTime date) {
   return matrix;
 }
 
-List<int> getCountWeeks(DateTime date) {
-  List<int> result = [1, date.weekday];
+// Возвращает номер недели и дня в месяце (в матричном виде)
+List<int> getWeekAndDay(DateTime date) {
+  List<int> result = [0, date.weekday - 1];
   DateTime tempDate = DateTime(date.year, date.month, 1);
   while (tempDate != date) {
     tempDate = DateTime(tempDate.year, tempDate.month, tempDate.day + 1);

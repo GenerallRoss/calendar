@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 
 import '../values/status.dart';
@@ -6,7 +8,7 @@ import 'functions.dart';
 class CalendarStatus extends ChangeNotifier {
   final Map<DateTime, List<List<Status?>>> _matrixStatus = {};
   Map<DateTime, List<List<Status?>>> get matrixStatus => _matrixStatus;
-  List<DateTime?> rangeDates = [null, null];
+  DateTime? selectedDate;
   bool leftOrRight = true;
 
   Status whatStatusOfDay(DateTime date) {
@@ -18,7 +20,18 @@ class CalendarStatus extends ChangeNotifier {
         date.year == DateTime.now().year) {
       return Status.defaultToday;
     } else {
-      return Status.def;
+      return getRandomStatus();
+    }
+  }
+
+  Status getRandomStatus() {
+    var rng = Random();
+    int randomNumber = rng.nextInt(2);
+    switch (randomNumber) {
+      case 0:
+        return Status.avaible;
+      default:
+        return Status.unavaible;
     }
   }
 
@@ -52,54 +65,22 @@ class CalendarStatus extends ChangeNotifier {
     }
   }
 
-  void addToRange(DateTime? pickedDate, DateTime dateTime, int week, int day) {
-    if (rangeDates[0] == null && rangeDates[1] == null) {
-      rangeDates[0] = pickedDate;
-      matrixStatus[DateTime(dateTime.year, dateTime.month, 1)]![week][day] =
-          Status.choosen;
-    } else if (rangeDates[0] != null && rangeDates[1] == null) {
-      rangeDates[1] = pickedDate;
-      matrixStatus[DateTime(dateTime.year, dateTime.month, 1)]![week][day] =
-          Status.choosen;
-      if (rangeDates[1]!.isBefore(rangeDates[0]!)) {
-        DateTime temp = rangeDates[0]!;
-        rangeDates[0] = rangeDates[1];
-        rangeDates[1] = temp;
-      }
-      rewriteStatus(false);
+  void selectDate(DateTime pickedDate) {
+    List<int> weekAndDay = getWeekAndDay(pickedDate);
+    DateTime currentDate = DateTime(pickedDate.year, pickedDate.month, 1);
+    debugPrint(weekAndDay.toString());
+    if (selectedDate == null) {
+      selectedDate = pickedDate;
+      matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
+          Status.selected;
     } else {
-      List<int> firstRange = getCountWeeks(rangeDates[0]!);
-      List<int> secondRange = getCountWeeks(rangeDates[1]!);
-      matrixStatus[DateTime(rangeDates[0]!.year, rangeDates[0]!.month, 1)]![
-              firstRange[0] - 1][firstRange[1] - 1] =
-          whatStatusOfDay(rangeDates[0]!);
-      matrixStatus[DateTime(rangeDates[1]!.year, rangeDates[1]!.month, 1)]![
-              secondRange[0] - 1][secondRange[1] - 1] =
-          whatStatusOfDay(rangeDates[1]!);
-      rewriteStatus(true);
-      rangeDates[0] = pickedDate;
-      matrixStatus[DateTime(rangeDates[0]!.year, rangeDates[0]!.month, 1)]![
-          week][day] = Status.choosen;
-      rangeDates[1] = null;
-    }
-    notifyListeners();
-  }
-
-  void rewriteStatus(bool isNew) {
-    DateTime? firstDate = rangeDates[0];
-    DateTime? secondDate = rangeDates[1];
-    while (firstDate !=
-        DateTime(secondDate!.year, secondDate.month, secondDate.day - 1)) {
-      firstDate = DateTime(firstDate!.year, firstDate.month, firstDate.day + 1);
-      List<int> dayMatrix = getCountWeeks(firstDate);
-      DateTime currentDay = DateTime(firstDate.year, firstDate.month, 1);
-      if (!isNew) {
-        matrixStatus[currentDay]![dayMatrix[0] - 1][dayMatrix[1] - 1] =
-            Status.ranged;
-      } else {
-        matrixStatus[currentDay]![dayMatrix[0] - 1][dayMatrix[1] - 1] =
-            whatStatusOfDay(firstDate);
-      }
+      List<int> oldWeekAndDay = getWeekAndDay(selectedDate!);
+      DateTime oldDate = DateTime(selectedDate!.year, selectedDate!.month, 1);
+      matrixStatus[oldDate]![oldWeekAndDay[0]][oldWeekAndDay[1]] =
+          Status.avaible;
+      selectedDate = pickedDate;
+      matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
+          Status.selected;
     }
     notifyListeners();
   }

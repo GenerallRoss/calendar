@@ -48,7 +48,7 @@ class _MonthCardState extends State<MonthCard> {
                   (BuildContext context, CalendarStatus value, Widget? child) {
                 return LayoutBuilder(builder: (context2, boxConstraints) {
                   return ListView.builder(
-                      itemCount: getWeeks(widget.currentDate),
+                      itemCount: getCountWeeks(widget.currentDate),
                       shrinkWrap: true,
                       primary: false,
                       itemBuilder: (context3, week) {
@@ -73,15 +73,12 @@ class _MonthCardState extends State<MonthCard> {
                                           onLongPress: () {
                                             debugPrint(
                                                 'Была дважды нажата ${matrixDate[week][day]?.day.toString()} ${months[widget.currentDate.month]} ${widget.currentDate.year}');
-                                            // ignore: unrelated_type_equality_checks
+                                            //ignore: unrelated_type_equality_checks
                                             if (value.matrixStatus[widget
                                                     .currentDate]![week][day] !=
                                                 Status.unavaible) {
-                                              value.addToRange(
-                                                  matrixDate[week][day],
-                                                  widget.currentDate,
-                                                  week,
-                                                  day);
+                                              value.selectDate(
+                                                  matrixDate[week][day]!);
                                             }
                                           },
                                           child: dayCard(

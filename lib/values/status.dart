@@ -5,6 +5,6 @@ enum Status {
   unavaibleToday,
   defaultToday,
   def,
-  choosen,
+  selected,
   ranged,
 }
