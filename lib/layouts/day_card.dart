@@ -1,5 +1,3 @@
-// ignore_for_file: unrelated_type_equality_checks
-
 import 'package:flutter/material.dart';
 import '../utils/calendar_status.dart';
 import '../values/constants.dart';

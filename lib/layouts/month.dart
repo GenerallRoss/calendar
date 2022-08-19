@@ -68,7 +68,6 @@ class _MonthCardState extends State<MonthCard> {
                                           null)
                                       ? GestureDetector(
                                           onTap: () {
-                                            //ignore: unrelated_type_equality_checks
                                             if (value.matrixStatus[widget
                                                     .currentDate]![week][day] !=
                                                 Status.unavaible) {

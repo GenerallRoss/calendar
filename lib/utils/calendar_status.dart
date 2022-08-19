@@ -44,15 +44,6 @@ class CalendarStatus extends ChangeNotifier {
     // По умолчанию все дни доступны
     for (int i = 0; i < matrixDate.length; i++) {
       matrixStatus[currentKey]!.add([]);
-      // matrixStatus[currentKey]![i] = ([
-      //   Status.def,
-      //   Status.def,
-      //   Status.def,
-      //   Status.def,
-      //   Status.def,
-      //   Status.def,
-      //   Status.def
-      // ]);
       // Проверка каждого дня на неделе
       for (int n = 0; n < dayCount; n++) {
         matrixStatus[currentKey]![i].add(Status.def);

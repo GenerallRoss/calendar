@@ -34,7 +34,7 @@ List<List<DateTime?>> getMonthMatrix(DateTime date) {
     for (int n = 0; n < dayCount; n++) {
       matrix[i].add(null);
     }
-    //matrix.add([null, null, null, null, null, null, null]);
+
     for (int n = 0; n < dayCount; n++) {
       if (i == 0 && index == 1) {
         var day1 = days[n];
