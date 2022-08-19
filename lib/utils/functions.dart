@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 int getCountWeeks(DateTime date) {
   var days = DateUtils.getDaysInMonth(date.year, date.month);
   int result = 1;
-  for (int i = 2; i < days + 1; i++) {
+  for (int i = 1; i < days; i++) {
     if (DateFormat('EEEE').format(DateTime(date.year, date.month, i)) ==
         'Monday') {
       result += 1;

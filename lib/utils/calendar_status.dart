@@ -63,7 +63,6 @@ class CalendarStatus extends ChangeNotifier {
   void selectDate(DateTime pickedDate) {
     List<int> weekAndDay = getWeekAndDay(pickedDate);
     DateTime currentDate = DateTime(pickedDate.year, pickedDate.month, 1);
-    debugPrint(weekAndDay.toString());
     if (selectedDate == null) {
       selectedDate = pickedDate;
       matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
