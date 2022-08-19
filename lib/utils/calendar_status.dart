@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 
+import '../values/constants.dart';
 import '../values/status.dart';
 import 'functions.dart';
 
@@ -43,17 +44,20 @@ class CalendarStatus extends ChangeNotifier {
     // По умолчанию все дни доступны
     for (int i = 0; i < matrixDate.length; i++) {
       matrixStatus[currentKey]!.add([]);
-      matrixStatus[currentKey]![i] = ([
-        Status.def,
-        Status.def,
-        Status.def,
-        Status.def,
-        Status.def,
-        Status.def,
-        Status.def
-      ]);
+      // matrixStatus[currentKey]![i] = ([
+      //   Status.def,
+      //   Status.def,
+      //   Status.def,
+      //   Status.def,
+      //   Status.def,
+      //   Status.def,
+      //   Status.def
+      // ]);
       // Проверка каждого дня на неделе
-      for (int n = 0; n < 7; n++) {
+      for (int n = 0; n < dayCount; n++) {
+        matrixStatus[currentKey]![i].add(Status.def);
+      }
+      for (int n = 0; n < dayCount; n++) {
         DateTime? currentDay = matrixDate[i][n];
         // Если день идёт ДО сегодняшнего, то ему присваивается статус "Прошедший"
         if (currentDay != null) {

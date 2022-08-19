@@ -1,3 +1,4 @@
+import 'package:calendar/values/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -29,8 +30,12 @@ List<List<DateTime?>> getMonthMatrix(DateTime date) {
     'Sunday'
   ];
   for (int i = 0; i < weeks; i++) {
-    matrix.add([null, null, null, null, null, null, null]);
-    for (int n = 0; n < 7; n++) {
+    matrix.add([]);
+    for (int n = 0; n < dayCount; n++) {
+      matrix[i].add(null);
+    }
+    //matrix.add([null, null, null, null, null, null, null]);
+    for (int n = 0; n < dayCount; n++) {
       if (i == 0 && index == 1) {
         var day1 = days[n];
         var day2 = DateFormat('EEEE')

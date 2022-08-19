@@ -13,6 +13,7 @@ TextStyle monthStyle = const TextStyle(
     color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17);
 
 const int countMonths = 6;
+int dayCount = 7;
 
 const Map<int, String> months = {
   1: 'Январь',
