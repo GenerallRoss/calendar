@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/calendar_status.dart';
@@ -31,13 +33,15 @@ class _MonthCardState extends State<MonthCard> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
+    DateFormat dateMonth = DateFormat.yMMMM('ru');
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Column(
           children: [
             Text(
-              "${months[widget.currentDate.month]} ${widget.currentDate.year}",
+              dateMonth.format(widget.currentDate),
               style: monthStyle,
             ),
             const SizedBox(

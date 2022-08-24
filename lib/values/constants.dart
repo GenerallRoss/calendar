@@ -62,3 +62,13 @@ const TextStyle unavaibleTextStyle =
 const TextStyle defaultTextStyle = TextStyle(color: Colors.black, fontSize: 20);
 
 const TextStyle choosenTextStyle = TextStyle(color: Colors.white, fontSize: 20);
+
+List<Widget> days = [
+  Text('Пн', style: dayStyle),
+  Text('Вт', style: dayStyle),
+  Text('Ср', style: dayStyle),
+  Text('Чт', style: dayStyle),
+  Text('Пт', style: dayStyle),
+  Text('Сб', style: dayStyle),
+  Text('Вс', style: dayStyle)
+];
