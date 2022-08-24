@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../values/lists.dart';
 import '../values/status.dart';
@@ -63,5 +64,20 @@ class CalendarService extends ChangeNotifier {
         notifyListeners();
       }
     }
+  }
+
+// Возвращает номер недели и дня в месяце (в матричном виде)
+  List<int> getWeekAndDay(DateTime date) {
+    List<int> result = [0, date.weekday - 1];
+    DateTime tempDate = DateTime(date.year, date.month, 1);
+    while (tempDate != date) {
+      tempDate = DateTime(tempDate.year, tempDate.month, tempDate.day + 1);
+      if (DateFormat('EEEE')
+              .format(DateTime(tempDate.year, tempDate.month, tempDate.day)) ==
+          'Monday') {
+        result[0]++;
+      }
+    }
+    return result;
   }
 }
