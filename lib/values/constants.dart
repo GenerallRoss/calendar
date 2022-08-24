@@ -14,6 +14,7 @@ TextStyle monthStyle = const TextStyle(
 
 const int countMonths = 6;
 int dayCount = 7;
+List<DateTime> dateList = [];
 
 const Map<int, String> months = {
   1: 'Январь',
