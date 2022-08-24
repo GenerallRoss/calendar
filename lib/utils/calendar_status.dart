@@ -60,22 +60,29 @@ class CalendarStatus extends ChangeNotifier {
     }
   }
 
-  void selectDate(DateTime pickedDate) {
-    List<int> weekAndDay = getWeekAndDay(pickedDate);
-    DateTime currentDate = DateTime(pickedDate.year, pickedDate.month, 1);
-    if (selectedDate == null) {
-      selectedDate = pickedDate;
-      matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
-          Status.selected;
-    } else {
-      List<int> oldWeekAndDay = getWeekAndDay(selectedDate!);
-      DateTime oldDate = DateTime(selectedDate!.year, selectedDate!.month, 1);
-      matrixStatus[oldDate]![oldWeekAndDay[0]][oldWeekAndDay[1]] =
-          Status.avaible;
-      selectedDate = pickedDate;
-      matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
-          Status.selected;
+  void selectDate(List<List<DateTime?>> matrix, int week, int day) {
+    DateTime? pickedDate = matrix[week][day];
+    if (pickedDate != null) {
+      DateTime currentDate = DateTime(pickedDate.year, pickedDate.month, 1);
+      if (matrixStatus[currentDate]![week][day] != Status.unavaible) {
+        List<int> weekAndDay = getWeekAndDay(pickedDate);
+
+        if (selectedDate == null) {
+          selectedDate = pickedDate;
+          matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
+              Status.selected;
+        } else {
+          List<int> oldWeekAndDay = getWeekAndDay(selectedDate!);
+          DateTime oldDate =
+              DateTime(selectedDate!.year, selectedDate!.month, 1);
+          matrixStatus[oldDate]![oldWeekAndDay[0]][oldWeekAndDay[1]] =
+              Status.avaible;
+          selectedDate = pickedDate;
+          matrixStatus[currentDate]![weekAndDay[0]][weekAndDay[1]] =
+              Status.selected;
+        }
+        notifyListeners();
+      }
     }
-    notifyListeners();
   }
 }

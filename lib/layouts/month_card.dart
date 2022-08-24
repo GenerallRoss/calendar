@@ -66,7 +66,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][0] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][0]!);
+                                    value.selectDate(matrixDate, week, 0);
                                   }
                                 },
                                 child: SizedBox(
@@ -80,7 +80,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][1] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][1]!);
+                                    value.selectDate(matrixDate, week, 1);
                                   }
                                 },
                                 child: SizedBox(
@@ -94,7 +94,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][2] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][2]!);
+                                    value.selectDate(matrixDate, week, 2);
                                   }
                                 },
                                 child: SizedBox(
@@ -108,7 +108,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][3] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][3]!);
+                                    value.selectDate(matrixDate, week, 3);
                                   }
                                 },
                                 child: SizedBox(
@@ -122,7 +122,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][4] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][4]!);
+                                    value.selectDate(matrixDate, week, 4);
                                   }
                                 },
                                 child: SizedBox(
@@ -136,7 +136,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][5] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][5]!);
+                                    value.selectDate(matrixDate, week, 5);
                                   }
                                 },
                                 child: SizedBox(
@@ -150,7 +150,7 @@ class _MonthCardState extends State<MonthCard> {
                                   if (value.matrixStatus[widget.currentDate]![
                                           week][6] !=
                                       Status.unavaible) {
-                                    value.selectDate(matrixDate[week][6]!);
+                                    value.selectDate(matrixDate, week, 6);
                                   }
                                 },
                                 child: SizedBox(

@@ -1,3 +1,4 @@
+import 'package:calendar/values/lists.dart';
 import 'package:flutter/material.dart';
 import '../utils/calendar_status.dart';
 import '../values/colors.dart';
@@ -22,11 +23,58 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
 
   if (currentStatus != Status.ranged) {
     borderSide = [10, 10, 10, 10];
-  } else if (day == 6 || isDayLast(thisDate)) {
+  } else if (day == dayCount - 1 || isDayLast(thisDate)) {
     borderSide = [0, 0, 10, 10];
   } else if (day == 0 || isDayFirst(thisDate)) {
     borderSide = [10, 10, 0, 0];
   }
+
+  Color dayColor = (calendarStatus.matrixStatus[currentDate]![week][day] ==
+              Status.avaible ||
+          calendarStatus.matrixStatus[currentDate]![week][day] ==
+              Status.avaibleToday)
+      ? Colors.white
+      // Если день недоступен
+      : (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                  Status.unavaible ||
+              calendarStatus.matrixStatus[currentDate]![week][day] ==
+                  Status.unavaibleToday)
+          ? unuvaibleDayColor
+          // День "По умолчанию"
+          : (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                  Status.selected)
+              ? Colors.black
+              : (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                      Status.ranged)
+                  ? rangedColor
+                  : Colors.transparent;
+
+  Border dayBorder = Border.all(
+      color: (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                  Status.avaibleToday ||
+              calendarStatus.matrixStatus[currentDate]![week][day] ==
+                  Status.unavaibleToday ||
+              calendarStatus.matrixStatus[currentDate]![week][day] ==
+                  Status.defaultToday)
+          ? Colors.black
+          : Colors.transparent,
+      width: 2.5);
+
+  Text dayText = Text(
+    (matrixDate[week][day]?.day.toString() != null)
+        ? matrixDate[week][day]!.day.toString()
+        : '',
+    textAlign: TextAlign.center,
+    style: (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                Status.unavaible ||
+            calendarStatus.matrixStatus[currentDate]![week][day] ==
+                Status.unavaibleToday)
+        ? unavaibleTextStyle
+        : (calendarStatus.matrixStatus[currentDate]![week][day] ==
+                Status.selected)
+            ? choosenTextStyle
+            : defaultTextStyle,
+  );
 
   return Padding(
     padding:
@@ -39,55 +87,14 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
     child: Container(
       decoration: BoxDecoration(
           // Если день доступен
-          color: (calendarStatus.matrixStatus[currentDate]![week][day] == Status.avaible ||
-                  calendarStatus.matrixStatus[currentDate]![week][day] ==
-                      Status.avaibleToday)
-              ? Colors.white
-              // Если день недоступен
-              : (calendarStatus.matrixStatus[currentDate]![week][day] == Status.unavaible ||
-                      calendarStatus.matrixStatus[currentDate]![week][day] ==
-                          Status.unavaibleToday)
-                  ? unuvaibleDayColor
-                  // День "По умолчанию"
-                  : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                          Status.selected)
-                      ? Colors.black
-                      : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                              Status.ranged)
-                          ? rangedColor
-                          : Colors.transparent,
-          border: Border.all(
-              color:
-                  (calendarStatus.matrixStatus[currentDate]![week][day] == Status.avaibleToday ||
-                          calendarStatus.matrixStatus[currentDate]![week][day] ==
-                              Status.unavaibleToday ||
-                          calendarStatus.matrixStatus[currentDate]![week][day] ==
-                              Status.defaultToday)
-                      ? Colors.black
-                      : Colors.transparent,
-              width: 2.5),
+          color: dayColor,
+          border: dayBorder,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(borderSide[0]),
               bottomLeft: Radius.circular(borderSide[1]),
               topRight: Radius.circular(borderSide[2]),
               bottomRight: Radius.circular(borderSide[3]))),
-      child: Center(
-        child: Text(
-          (matrixDate[week][day]?.day.toString() != null)
-              ? matrixDate[week][day]!.day.toString()
-              : '',
-          textAlign: TextAlign.center,
-          style: (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                      Status.unavaible ||
-                  calendarStatus.matrixStatus[currentDate]![week][day] ==
-                      Status.unavaibleToday)
-              ? unavaibleTextStyle
-              : (calendarStatus.matrixStatus[currentDate]![week][day] ==
-                      Status.selected)
-                  ? choosenTextStyle
-                  : defaultTextStyle,
-        ),
-      ),
+      child: Center(child: dayText),
     ),
   );
 }
