@@ -6,7 +6,7 @@ import '../values/lists.dart';
 import '../values/status.dart';
 import 'functions.dart';
 
-class CalendarStatus extends ChangeNotifier {
+class CalendarService extends ChangeNotifier {
   final Map<DateTime, List<List<Status?>>> _matrixStatus = {};
   Map<DateTime, List<List<Status?>>> get matrixStatus => _matrixStatus;
   DateTime? selectedDate;

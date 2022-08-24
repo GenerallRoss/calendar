@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'layouts/month_card.dart';
-import 'utils/calendar_status.dart';
+import 'utils/calendar_service.dart';
 import 'values/colors.dart';
 import 'values/lists.dart';
 
 Widget calenrarWidget(BuildContext context, [int thisCountMonths = 6]) {
-  CalendarStatus calendarStatus = Provider.of<CalendarStatus>(context);
+  CalendarService calendarStatus = Provider.of<CalendarService>(context);
   return Scaffold(
     backgroundColor: backgroundColor,
     body: Center(

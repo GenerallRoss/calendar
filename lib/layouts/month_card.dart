@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/calendar_status.dart';
+import '../utils/calendar_service.dart';
 import '../utils/functions.dart';
 import '../values/lists.dart';
 import '../values/text_styles.dart';
@@ -16,7 +16,7 @@ class MonthCard extends StatefulWidget {
       : super(key: key);
 
   final DateTime currentDate;
-  final CalendarStatus calendarStatus;
+  final CalendarService calendarStatus;
 
   @override
   State<MonthCard> createState() => _MonthCardState();
@@ -47,9 +47,9 @@ class _MonthCardState extends State<MonthCard> {
           const SizedBox(
             height: 15,
           ),
-          Consumer<CalendarStatus>(
+          Consumer<CalendarService>(
             builder:
-                (BuildContext context, CalendarStatus value, Widget? child) {
+                (BuildContext context, CalendarService value, Widget? child) {
               return LayoutBuilder(builder: (context2, boxConstraints) {
                 return ListView.builder(
                     itemCount: getCountWeeks(widget.currentDate),

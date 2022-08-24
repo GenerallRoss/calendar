@@ -1,14 +1,14 @@
 import 'package:calendar/values/lists.dart';
 import 'package:flutter/material.dart';
-import '../utils/calendar_status.dart';
+import '../utils/calendar_service.dart';
 import '../values/colors.dart';
 import '../values/text_styles.dart';
 import '../values/status.dart';
 
 Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
-    int day, CalendarStatus calendarStatus) {
-  var currentStatus = calendarStatus.matrixStatus[currentDate]![week][day];
-  var thisDate = matrixDate[week][day];
+    int day, CalendarService calendarStatus) {
+  Status? currentStatus = calendarStatus.matrixStatus[currentDate]![week][day];
+  DateTime? thisDate = matrixDate[week][day];
   List<double> borderSide = [0, 0, 0, 0];
 
   bool isDayFirst(DateTime? currentDay) {

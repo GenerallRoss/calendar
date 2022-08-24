@@ -2,14 +2,14 @@ import 'package:calendar/calendar_widget.dart';
 import 'package:calendar/values/lists.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'utils/calendar_status.dart';
+import 'utils/calendar_service.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => CalendarStatus(),
+      create: (context) => CalendarService(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
