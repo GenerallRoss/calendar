@@ -9,10 +9,6 @@ TextStyle dayStyle = TextStyle(
 TextStyle monthStyle = const TextStyle(
     color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17);
 
-const int countMonths = 6;
-const int dayCount = 7;
-List<DateTime> dateList = [];
-
 // Текст для прошедших дней
 const TextStyle unavaibleTextStyle =
     TextStyle(color: Color.fromARGB(220, 197, 196, 196), fontSize: 20);

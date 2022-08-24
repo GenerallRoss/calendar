@@ -10,3 +10,7 @@ List<Widget> dayList = [
   Text('Сб', style: dayStyle),
   Text('Вс', style: dayStyle)
 ];
+
+const int countMonths = 6;
+const int dayCount = 7;
+List<DateTime> dateList = [];

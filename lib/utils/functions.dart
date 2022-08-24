@@ -1,6 +1,7 @@
-import 'package:calendar/values/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../values/lists.dart';
 
 // Возвращает количество недель в месяце
 int getCountWeeks(DateTime date) {
