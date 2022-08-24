@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/calendar_status.dart';
-import '../values/constants.dart';
+import '../values/colors.dart';
+import '../values/text_styles.dart';
 import '../values/status.dart';
 
 Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,

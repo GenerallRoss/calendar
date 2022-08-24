@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 
-import '../values/constants.dart';
+import '../values/text_styles.dart';
 import '../values/status.dart';
 import 'functions.dart';
 

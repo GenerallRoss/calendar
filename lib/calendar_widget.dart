@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 
 import 'layouts/month_card.dart';
 import 'utils/calendar_status.dart';
-import 'values/constants.dart';
+import 'values/colors.dart';
+import 'values/lists.dart';
+import 'values/text_styles.dart';
 
 Widget calenrarWidget(BuildContext context, [int thisCountMonths = 6]) {
   CalendarStatus calendarStatus = Provider.of<CalendarStatus>(context);
@@ -21,7 +23,7 @@ Widget calenrarWidget(BuildContext context, [int thisCountMonths = 6]) {
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: days),
+                  children: dayList),
             ),
           ),
           Expanded(

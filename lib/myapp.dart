@@ -2,7 +2,7 @@ import 'package:calendar/calendar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'utils/calendar_status.dart';
-import 'values/constants.dart';
+import 'values/text_styles.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
