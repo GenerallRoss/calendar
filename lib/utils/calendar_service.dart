@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../values/lists.dart';
 import '../values/status.dart';
@@ -12,32 +10,9 @@ class CalendarService extends ChangeNotifier {
   DateTime? selectedDate;
   bool leftOrRight = true;
 
-  Status whatStatusOfDay(DateTime date) {
-    if (date.isBefore(DateTime.now()) && date.day != DateTime.now().day) {
-      return Status.unavaible;
-      // Если день сегодняшний - ему присваивается статус "Сегодняшний день доступный"
-    } else if (date.day == DateTime.now().day &&
-        date.month == DateTime.now().month &&
-        date.year == DateTime.now().year) {
-      return Status.defaultToday;
-    } else {
-      return getRandomStatus();
-    }
-  }
-
-  Status getRandomStatus() {
-    var rng = Random();
-    int randomNumber = rng.nextInt(2);
-    switch (randomNumber) {
-      case 0:
-        return Status.avaible;
-      default:
-        return Status.unavaible;
-    }
-  }
-
 // Создаёт матрицу статусов для каждого дня
-  void initMatrixStatus(List<List<DateTime?>> matrixDate) {
+  void initMatrixStatus(List<List<DateTime?>> matrixDate,
+      [List<List<Status?>>? newMatrixStatus]) {
     DateTime currentKey =
         DateTime(matrixDate[1][0]!.year, matrixDate[1][0]!.month, 1);
     matrixStatus[currentKey] = [];
@@ -52,7 +27,11 @@ class CalendarService extends ChangeNotifier {
         DateTime? currentDay = matrixDate[i][n];
         // Если день идёт ДО сегодняшнего, то ему присваивается статус "Прошедший"
         if (currentDay != null) {
-          matrixStatus[currentKey]![i][n] = whatStatusOfDay(currentDay);
+          if (newMatrixStatus == null) {
+            matrixStatus[currentKey]![i][n] = whatStatusOfDay(currentDay);
+          } else {
+            matrixStatus[currentKey]![i][n] = newMatrixStatus[i][n];
+          }
         } else {
           matrixStatus[currentKey]![i][n] = null;
         }

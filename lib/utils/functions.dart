@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../values/lists.dart';
+import '../values/status.dart';
 
 // Возвращает количество недель в месяце
 int getCountWeeks(DateTime date) {
@@ -67,4 +70,30 @@ List<int> getWeekAndDay(DateTime date) {
     }
   }
   return result;
+}
+
+// Проверяем статус дня
+Status whatStatusOfDay(DateTime date) {
+  if (date.isBefore(DateTime.now()) && date.day != DateTime.now().day) {
+    return Status.unavaible;
+    // Если день сегодняшний - ему присваивается статус "Сегодняшний день доступный"
+  } else if (DateUtils.isSameDay(date, DateTime.now()) &&
+      DateUtils.isSameMonth(date, DateTime.now()) &&
+      date.year == DateTime.now().year) {
+    return Status.defaultToday;
+  } else {
+    return getRandomStatus();
+  }
+}
+
+// Присваиваем статус наугад
+Status getRandomStatus() {
+  Random rng = Random();
+  int randomNumber = rng.nextInt(2);
+  switch (randomNumber) {
+    case 0:
+      return Status.avaible;
+    default:
+      return Status.unavaible;
+  }
 }

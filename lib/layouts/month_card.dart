@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../utils/calendar_service.dart';
 import '../utils/functions.dart';
-import '../values/lists.dart';
 import '../values/text_styles.dart';
 import '../values/status.dart';
 import 'day_card.dart';
