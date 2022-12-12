@@ -33,14 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    for (int index = 0; index < countMonths; index++) {
-      dateList.add(DateTime(currentDate.year, currentDate.month + index));
+    for (int index = 0; index < Configuration.countMonths; index++) {
+      Configuration.dateList
+          .add(DateTime(currentDate.year, currentDate.month + index));
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return calenrarWidget(context, countMonths);
+    return calenrarWidget(context, Configuration.countMonths);
   }
 }

@@ -5,6 +5,7 @@ import '../values/colors.dart';
 import '../values/text_styles.dart';
 import '../values/status.dart';
 
+/// Виджет для отображения одного дня.
 Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
     int day, CalendarService calendarStatus) {
   Status? currentStatus = calendarStatus.matrixStatus[currentDate]![week][day];
@@ -23,7 +24,7 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
 
   if (currentStatus != Status.ranged) {
     borderSide = [10, 10, 10, 10];
-  } else if (day == dayCount - 1 || isDayLast(thisDate)) {
+  } else if (day == Configuration.dayCount - 1 || isDayLast(thisDate)) {
     borderSide = [0, 0, 10, 10];
   } else if (day == 0 || isDayFirst(thisDate)) {
     borderSide = [10, 10, 0, 0];
@@ -86,7 +87,6 @@ Widget dayCard(List<List<DateTime?>> matrixDate, DateTime currentDate, int week,
                 : const EdgeInsets.all(3.5),
     child: Container(
       decoration: BoxDecoration(
-          // Если день доступен
           color: dayColor,
           border: dayBorder,
           borderRadius: BorderRadius.only(

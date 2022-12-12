@@ -6,6 +6,18 @@ import 'utils/calendar_service.dart';
 import 'values/colors.dart';
 import 'values/lists.dart';
 
+/// [calenrarWidget] - виджет для отрисовки этого и последующих месяцев в [Column]
+/// В качестве параметра в виджет передаётся целочисленная переменная [thisCountMonths]
+/// Она указывает, сколько месяцев необходимо отрисовать (по-умолчанию равна 6)
+/// В качестве первого месяца, виджет берёт месяц нынешней даты
+///
+/// Пример:
+/// Если сейчас дата 01.01.2022 и в качестве параметра [thisCountMonths] мы передали 8,
+/// то виджет отрисует календарь с января по август 2022 года.
+/// ```dart
+///   calenrarWidget(8); // Отрисует 8 месяцев
+/// ```
+
 Widget calenrarWidget(BuildContext context, [int thisCountMonths = 6]) {
   CalendarService calendarStatus = Provider.of<CalendarService>(context);
   return Scaffold(
@@ -21,7 +33,7 @@ Widget calenrarWidget(BuildContext context, [int thisCountMonths = 6]) {
             color: Colors.white,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: dayList),
+                children: Configuration.dayList),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -31,7 +43,7 @@ Widget calenrarWidget(BuildContext context, [int thisCountMonths = 6]) {
                   shrinkWrap: true,
                   itemBuilder: ((context, index) {
                     return MonthCard(
-                        currentDate: dateList[index],
+                        currentDate: Configuration.dateList[index],
                         calendarStatus: calendarStatus);
                   })),
             ),

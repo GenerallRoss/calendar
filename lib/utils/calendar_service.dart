@@ -5,13 +5,15 @@ import '../values/lists.dart';
 import '../values/status.dart';
 import 'functions.dart';
 
+/// Класс для обработки событий календаря (инициализация, выбор даты).
 class CalendarService extends ChangeNotifier {
   final Map<DateTime, List<List<Status?>>> _matrixStatus = {};
   Map<DateTime, List<List<Status?>>> get matrixStatus => _matrixStatus;
   DateTime? selectedDate;
   bool leftOrRight = true;
 
-// Создаёт матрицу статусов для каждого дня
+  /// Инициализация матрицы статусов.
+  /// Создаёт матрицу статусов для каждого дня.
   void initMatrixStatus(List<List<DateTime?>> matrixDate,
       [List<List<Status?>>? newMatrixStatus]) {
     DateTime currentKey =
@@ -21,10 +23,10 @@ class CalendarService extends ChangeNotifier {
     for (int i = 0; i < matrixDate.length; i++) {
       matrixStatus[currentKey]!.add([]);
       // Проверка каждого дня на неделе
-      for (int n = 0; n < dayCount; n++) {
+      for (int n = 0; n < Configuration.dayCount; n++) {
         matrixStatus[currentKey]![i].add(Status.def);
       }
-      for (int n = 0; n < dayCount; n++) {
+      for (int n = 0; n < Configuration.dayCount; n++) {
         DateTime? currentDay = matrixDate[i][n];
         // Если день идёт ДО сегодняшнего, то ему присваивается статус "Прошедший"
         if (currentDay != null) {
@@ -40,6 +42,9 @@ class CalendarService extends ChangeNotifier {
     }
   }
 
+  /// Функция для выбора даты в календаре.
+  ///
+  /// Вызывается при нажатии доступной даты. Она становится выбранной.
   void selectDate(List<List<DateTime?>> matrix, int week, int day) {
     DateTime? pickedDate = matrix[week][day];
     if (pickedDate != null) {
@@ -66,7 +71,13 @@ class CalendarService extends ChangeNotifier {
     }
   }
 
-// Возвращает номер недели и дня в месяце (в матричном виде)
+  /// Возвращает номер недели и дня в месяце (виде списка)
+  ///
+  /// Используется в методе [selectDate].
+  /// В качестве параметра передаётся объект [DateTime], который является выбранной датой.
+  ///
+  /// При вызове возвращает список из двух элементов `int`,
+  /// первый элемент которого равен номеру недели, а второй - номеру дня.
   List<int> getWeekAndDay(DateTime date) {
     List<int> result = [0, date.weekday - 1];
     DateTime tempDate = DateTime(date.year, date.month, 1);
