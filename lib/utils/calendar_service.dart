@@ -16,6 +16,7 @@ class CalendarService extends ChangeNotifier {
   /// Создаёт матрицу статусов для каждого дня.
   void initMatrixStatus(List<List<DateTime?>> matrixDate,
       [List<List<Status?>>? newMatrixStatus]) {
+    Colors.blueAccent;
     DateTime currentKey =
         DateTime(matrixDate[1][0]!.year, matrixDate[1][0]!.month, 1);
     matrixStatus[currentKey] = [];
